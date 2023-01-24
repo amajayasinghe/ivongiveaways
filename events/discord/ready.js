@@ -1,25 +1,53 @@
 const register = require('../../utils/slashsync');
+const { ActivityType } = require('discord.js');
+
 module.exports = async (client) => {
-  let servercount = await client.guilds.cache
-  let mcount = 0; 
-client.guilds.cache.forEach((guild) => {
-    mcount += guild.memberCount 
-})
+  
   await register(client, client.register_arr.map((command) => ({
     name: command.name,
     description: command.description,
     options: command.options,
-    type: 'CHAT_INPUT'
+    type: '1'
   })), {
     debug: true
   });
 
   console.log(`[ / | Slash Command ] - ✅ Loaded all slash commands!`)
   console.log(`[STATUS] ${client.user.tag} is now online!`);
-  const activities = [`Your Giveaways`, `${mcount} users`];
+  const activities = [
+    'Your Giveaways',
+    '/help',
+    'www.ivongiveaways.com'
+  ]
+
   setInterval(() => {
-    let activity = activities[Math.floor(Math.random() * activities.length)];
-    client.user.setActivity(activity, { type: "WATCHING" });
+    const status = activities[Math.floor(Math.random() * activities.length)];
+    client.user.setActivity({ name: `${status}`, type: ActivityType.Watching })
   }, 5000);
 
 };
+
+
+// Do this one if you want the streaming Status //
+
+/*
+const register = require('../../utils/slashsync');
+const { ActivityType } = require('discord.js');
+
+module.exports = async (client) => {
+  
+  await register(client, client.register_arr.map((command) => ({
+    name: command.name,
+    description: command.description,
+    options: command.options,
+    type: '1'
+  })), {
+    debug: true
+  });
+
+  console.log(`[ / | Slash Command ] - ✅ Loaded all slash commands!`)
+  console.log(`[STATUS] ${client.user.tag} is now online!`);
+  
+ client.user.setActivity({ name: `Your Giveaways`, type: ActivityType.Streaming, url: 'https://youtube.com/' })
+
+};*/
